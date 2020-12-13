@@ -8,44 +8,71 @@ const Room = require('../models/room');
 const Chat = require('../models/chat');
 
 router.get('/', (req, res) => {
-    res.render('home', {
-        success: null,
-        errors: null
-    });
+    const data = {
+        isMe: false,
+        success: req.flash('success')[0],
+        errors: req.flash('error'),
+    }
+    if (req.isAuthenticated()){
+        data.isMe = true
+    }
+    res.render('home', data);
 })
 
 router.get('/chat/:id', (req, res) => {
     const roomId = req.params.id;
     Room.findById(roomId, function (err, room) {
-        if (err) throw err;
+        if (err) {
+            req.flash('error', "Invalid Room");
+            return res.redirect('/');
+        }
         if (!room) {
             return next();
         }
         console.log(room)
-        res.render('chatroom', { user: room.user, room: room });
+        const data = {
+            isMe: false,
+            room: room
+        }
+        if (req.isAuthenticated()) {
+            data.isMe = true
+        }
+        res.render('chatroom', data);
     });
 })
 
 // Login
 router.get('/login', function(req, res, next) {
-	// If user is already logged in, then redirect to root page
-	if(req.isAuthenticated()){
-		res.redirect('/');
-	}
-	else{
-		res.render('login', {
-			success: req.flash('success')[0],
-			errors: req.flash('error'), 
-			showRegisterForm: req.flash('showRegisterForm')[0]
-		});
+    // If user is already logged in, then redirect to root page
+    if (req.isAuthenticated()){
+        res.redirect('/');
+    }
+    else{
+        res.render('login', {
+            success: req.flash('success')[0],
+            errors: req.flash('error'), 
+            showRegisterForm: req.flash('showRegisterForm')[0]
+        });
     }
 });
 
 router.post('/login', passport.authenticate('local', { 
-	successRedirect: '/',
-	failureRedirect: '/login',
-	failureFlash: true
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
 }));
+
+// Logout
+router.get('/logout', function(req, res, next) {
+    // remove the req.user property and clear the login session
+    req.logout();
+
+    // destroy session data
+    req.session = null;
+
+    // redirect to homepage
+    res.redirect('/');
+});
 
 router.post('/send', (req, res) => {
     const { title, name, email, message } = req.body

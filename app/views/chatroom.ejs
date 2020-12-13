@@ -11,6 +11,9 @@
     <div class="container clearfix">
         <div class="chat">
             <div class="controls">
+                <% if (isMe) { %>
+                <a href="/logout" class="logout-btn">Logout</a>
+                <% }; %>
                 <a href="/" class="rooms-btn">Back</a>
             </div>
             <div class="chat-header clearfix">
@@ -31,6 +34,14 @@
         </div> <!-- end chat -->
 
     </div> <!-- end container -->
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        $(function () {
+            app.chat('<%= room.id %>')
+        });
+    </script>
 </body>
 
 </html>

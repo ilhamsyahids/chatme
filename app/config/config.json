@@ -1,0 +1,9 @@
+{
+	"db": "mongodb://<username>:<password>@mongodb.net/<dbname>",
+	"sessionSecret": "<RandomString>",
+	"redis": {
+		"host": "127.0.0.1",
+		"port": 6379,
+		"password": ""
+	}
+}

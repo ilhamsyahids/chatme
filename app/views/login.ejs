@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Chat IO</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div class="login-page">
+    <div class="form">
+      <div style="background-color: gainsboro;margin-bottom: 10px;">
+        Chat For Me 💬
+      </div>
+
+      <div class="form-line"></div>
+
+      <div style="margin-top: 18px;">
+        <form action="/login" class="login-form" method="post">
+          <input type="text" name="username" placeholder="Username" />
+          <input type="password" name="password" placeholder="Password" />
+          <button type="submit">login</button>
+          <% if (errors != null) { %>
+          <% errors.forEach(function(err){ %>
+          <p class="message error"><%= err %></p>
+          <% }); %>
+          <% } if (success != null) { %>
+          <p class="message success"><%= success %></p>
+          <% } %>
+        </form>
+      </div>
+    </div> <!-- end form -->
+  </div> <!-- end login container -->
+</body>
+
+</html>

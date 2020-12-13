@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const faker = require('faker');
+const passport = require('passport');
 
 const Room = require('../models/room');
 const Chat = require('../models/chat');
@@ -24,6 +25,27 @@ router.get('/chat/:id', (req, res) => {
         res.render('chatroom', { user: room.user, room: room });
     });
 })
+
+// Login
+router.get('/login', function(req, res, next) {
+	// If user is already logged in, then redirect to root page
+	if(req.isAuthenticated()){
+		res.redirect('/');
+	}
+	else{
+		res.render('login', {
+			success: req.flash('success')[0],
+			errors: req.flash('error'), 
+			showRegisterForm: req.flash('showRegisterForm')[0]
+		});
+    }
+});
+
+router.post('/login', passport.authenticate('local', { 
+	successRedirect: '/',
+	failureRedirect: '/login',
+	failureFlash: true
+}));
 
 router.post('/send', (req, res) => {
     const { title, name, email, message } = req.body

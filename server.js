@@ -27,5 +27,10 @@ app.use(morgan('common'))
 
 app.use('/', routes)
 
+// 404 errors
+app.use(function(req, res, next) {
+    res.status(404).sendFile(process.cwd() + '/app/views/404.html');
+});
+  
 const port = process.env.PORT || 3001;
 ioServer.listen(port, () => console.log(`Listening on Port ${port}...`));

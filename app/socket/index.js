@@ -14,9 +14,7 @@ const ioEvents = (io) => {
                 if (socket.request.session.passport && socket.request.session.passport.user) {
                     message.username = socket.request.session.passport.user
                 } else {
-                    message.username = (room.user &&
-                        (room.user.name || room.user.email.length > 30 ? room.user.email.substring(0, 30) + '...' : room.user.email))
-                        || 'Anonymous'
+                    message.username = (room.user && (room.user.name || room.user.email)) || 'You'
                 }
                 Room.findAndPushChatsById(roomId, message, (error, updatedRoom) => {
                     cb(message)

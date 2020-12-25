@@ -5,13 +5,13 @@ const faker = require('faker');
 const passport = require('passport');
 
 const Room = require('../models/room');
-const Chat = require('../models/chat');
 
 router.get('/', (req, res) => {
     const data = {
         isMe: false,
         success: req.flash('success')[0],
         errors: req.flash('error'),
+        errorRoom: req.flash('error-room')[0],
     }
     if (req.isAuthenticated()){
         data.isMe = true
@@ -27,7 +27,9 @@ router.get('/chat/:id', (req, res) => {
             return res.redirect('/');
         }
         if (!room) {
-            return next();
+            req.flash('error-room', roomId);
+            req.flash('error', "Expired Room");
+            return res.redirect('/');
         }
         const data = {
             isMe: false,
@@ -81,20 +83,19 @@ router.post('/send', (req, res) => {
     if (!!name) user.name = name
     if (!!email) user.email = email
 
-    console.log(user)
     Room.create({
         title: title ? title : fakerTitle,
-        user: user
+        user: user,
+        chats: [
+            {
+                username: user && (user.name || user.email),
+                content: message,
+                date: Date.now()
+            }
+        ]
     }, function (err, newRoom) {
         if (err) throw err;
-        console.log(newRoom)
-        Chat.create({
-            roomId: newRoom.id,
-            message
-        }, function (err) {
-            if (err) throw err;
-            res.redirect('/');
-        })
+        res.redirect(`/chat/${newRoom.id}`);
     });
 })
 

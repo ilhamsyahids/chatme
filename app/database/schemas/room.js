@@ -11,9 +11,9 @@ const RoomSchema = new Mongoose.Schema({
     },
     chats: {
         type: [{
-            username: { type: String, default: null },
+            username: { type: String, default: 'You' },
             content: { type: String, required: true },
-            date: { type: Number, required: true}
+            date: { type: Number, required: true, default: Date.now() }
         }],
         default: []
     },

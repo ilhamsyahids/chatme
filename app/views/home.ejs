@@ -9,6 +9,13 @@
 
 <body>
     <div class="init-page">
+        <div class="room-list">
+            <div class="recent-chat">
+                Recent Chat 💬
+            </div>
+            <ul>
+            </ul>
+        </div>
         <div class="form">
             <div style="background-color: gainsboro;margin-bottom: 10px;">
                 Chat Me 💬
@@ -20,7 +27,8 @@
                     <input type="text" name="title" placeholder="Title (optional)" />
                     <input type="text" name="name" placeholder="Name (optional)" />
                     <input type="email" name="email" placeholder="Email (optional)" />
-                    <textarea required spellcheck="false" form="contact" name="message" id="message" placeholder="Message" cols="30" rows="10"></textarea>
+                    <textarea required spellcheck="false" form="contact" name="message" id="message"
+                        placeholder="Message" cols="30" rows="10"></textarea>
 
                     <button type="submit">Send</button>
                     <% if (errors != null) { %>
@@ -34,6 +42,16 @@
             </div>
         </div> <!-- end form -->
     </div> <!-- end login container -->
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script src="/js/main.js"></script>
+    <script>
+        $(function () {
+            app.utils.addRecentRoom()
+            if ('<%= errorRoom %>') {
+                app.utils.removeRoom('<%= errorRoom %>')
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -7,8 +7,7 @@ const app = {
         try {
             const rooms = JSON.parse(localStorage.getItem('chatme-rooms')) || [];
             rooms.unshift(dataRoom)
-            console.log([...new Set(rooms)])
-            localStorage.setItem('chatme-rooms', JSON.stringify(rooms))
+            localStorage.setItem('chatme-rooms', JSON.stringify([...rooms.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)]))
         } catch (err) {
             localStorage.setItem('chatme-rooms', JSON.stringify([]))
         }
@@ -59,6 +58,32 @@ const app = {
 
             // Keep scroll bar down
             $(".chat-history").animate({ scrollTop: $('.chat-history')[0].scrollHeight }, 1000);
+        },
+
+        addRecentRoom: function () {
+            const rooms = JSON.parse(localStorage.getItem('chatme-rooms')) || [];
+            let html = '';
+            if (rooms.length > 0) {
+                $('.recent-chat').removeAttr('style');
+            } else {
+                $('.recent-chat').attr('style', 'display: none;');
+            }
+            rooms.forEach(room => {
+                html += `
+                    <a href="/chat/${room.id}">
+                        <li class="room-item">${room.title}</li>
+                    </a>
+                `
+            })
+
+            $('.room-list ul').empty();
+            $(html).appendTo('.room-list ul');
+        },
+
+        removeRoom: function(roomId) {
+            const rooms = JSON.parse(localStorage.getItem('chatme-rooms')) || [];
+            localStorage.setItem('chatme-rooms', JSON.stringify([...rooms.filter(room => room.id !== roomId)]));
+            app.utils.addRecentRoom()
         }
     }
 }

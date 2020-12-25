@@ -44,7 +44,7 @@ const app = {
 
     utils: {
         // Adding a new message to chat history
-        addMessage: function (message) {
+        addMessage: function (message, first = false) {
             message.date = (new Date(message.date)).toLocaleString();
 
             const html = `<li>
@@ -56,8 +56,10 @@ const app = {
                         </li>`;
             $(html).hide().appendTo('.chat-history ul').slideDown(200);
 
-            // Keep scroll bar down
-            $(".chat-history").animate({ scrollTop: $('.chat-history')[0].scrollHeight }, 1000);
+            // Keep scroll bar down if not first fetch
+            if (!first) {
+                $(".chat-history").animate({ scrollTop: $('.chat-history')[0].scrollHeight }, 1000);
+            }
         },
 
         addRecentRoom: function () {

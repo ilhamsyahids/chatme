@@ -41,7 +41,7 @@
         $(function () {
             app.chat('<%= room.id %>', '<%= room.title %>')
             const data = <%- chats %>
-            data.forEach(c => app.utils.addMessage(c))
+            data.forEach((c, id) => id === data.length ? app.utils.addMessage(c) : app.utils.addMessage(c, true))
         });
     </script>
 </body>

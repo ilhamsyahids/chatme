@@ -72,6 +72,7 @@ body {
 }
 
 .chat .chat-history .message-data {
+  word-wrap: break-word;  
   margin-bottom: 15px;
 }
 
@@ -106,6 +107,7 @@ body {
 }
 
 .chat .chat-history .my-message {
+  word-wrap: break-word;
   background: #86BB71;
 }
 

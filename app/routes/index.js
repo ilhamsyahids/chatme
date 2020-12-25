@@ -14,18 +14,18 @@ router.get('/', (req, res) => {
         errors: req.flash('error'),
         errorRoom: req.flash('error-room')[0],
     }
-    if (req.isAuthenticated()){
+    if (req.isAuthenticated()) {
         data.isMe = true
     }
     res.render('home', data);
 })
 
 // List all rooms for me
-router.get('/dashboard', [User.isAuthenticated, function(req, res, next) {
-	Room.find(function(err, rooms){
-		if(err) throw err;
-		res.render('dashboard', { rooms });
-	});
+router.get('/dashboard', [User.isAuthenticated, function (req, res, next) {
+    Room.find(function (err, rooms) {
+        if (err) throw err;
+        res.render('dashboard', { rooms });
+    });
 }])
 
 router.get('/chat/:id', (req, res) => {
@@ -42,7 +42,15 @@ router.get('/chat/:id', (req, res) => {
         }
         const data = {
             isMe: false,
-            room: room
+            room: room,
+            chats: JSON.stringify(room.chats.map(c => {
+                const data = {
+                    username: c.username,
+                    date: c.date,
+                    content: c.content
+                }
+                return data
+            }))
         }
         if (req.isAuthenticated()) {
             data.isMe = true
@@ -52,12 +60,12 @@ router.get('/chat/:id', (req, res) => {
 })
 
 // Login
-router.get('/login', function(req, res, next) {
+router.get('/login', function (req, res, next) {
     // If user is already logged in, then redirect to root page
-    if (req.isAuthenticated()){
+    if (req.isAuthenticated()) {
         res.redirect('/');
     }
-    else{
+    else {
         res.render('login', {
             success: req.flash('success')[0],
             errors: req.flash('error')
@@ -65,14 +73,14 @@ router.get('/login', function(req, res, next) {
     }
 });
 
-router.post('/login', passport.authenticate('local', { 
+router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
 }));
 
 // Logout
-router.get('/logout', function(req, res, next) {
+router.get('/logout', function (req, res, next) {
     // remove the req.user property and clear the login session
     req.logout();
 

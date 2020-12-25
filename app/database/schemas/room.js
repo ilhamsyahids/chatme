@@ -9,6 +9,14 @@ const RoomSchema = new Mongoose.Schema({
             email: { type: String, default: null }
         }
     },
+    chats: {
+        type: [{
+            username: { type: String, default: null },
+            content: { type: String, required: true },
+            date: { type: Number, required: true}
+        }],
+        default: []
+    },
     notification: { type: Boolean, default: false }
 })
 

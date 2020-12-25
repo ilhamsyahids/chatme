@@ -24,6 +24,21 @@
 
             <div class="chat-history">
                 <ul>
+                    <% for (var i = 0; i < room.chats.length; i++) { %>
+                        <li>
+                            <div class="message-data">
+                                <span class="message-data-name">
+                                    <%= room.chats[i].username %>
+                                </span>
+                                <span class="message-data-time">
+                                    <%= new Date(room.chats[i].date).toLocaleString() %>
+                                </span>
+                            </div>
+                            <div class="message my-message" dir="auto">
+                                <%= room.chats[i].content %>
+                            </div>
+                        </li>
+                    <% } %>
                 </ul>
             </div> <!-- end chat-history -->
 

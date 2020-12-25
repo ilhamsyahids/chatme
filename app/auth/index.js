@@ -1,4 +1,5 @@
 const passport 	= require('passport');
+const config = require('../config');
 
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -16,9 +17,9 @@ const init = function(){
 	// Plug-in Local Strategy
 	passport.use(new LocalStrategy(
 	  function(username, password, done) {
-		// if (username == 'ilhamsyahids' && password == 'ilhamsyahids') {
-	    // 	return done(null, false, { message: 'Incorrect username or password.' });
-		// };
+		if (username !== config.accountUsername && password !== config.accountPassword) {
+	    	return done(null, false, { message: 'Incorrect username or password.' });
+		};
 		return done(null, {
 			username: 'Ilhamsyahids'
 		})

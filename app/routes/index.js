@@ -29,7 +29,6 @@ router.get('/chat/:id', (req, res) => {
         if (!room) {
             return next();
         }
-        console.log(room)
         const data = {
             isMe: false,
             room: room

@@ -326,6 +326,16 @@ a.rooms-btn:focus {
   background: #89c771;
 }
 
+a.logout-btn {
+  background-color: rgb(226, 98, 92);
+}
+
+a.logout-btn:hover,
+a.logout-btn:active,
+a.logout-btn:focus {
+  background-color: rgb(245, 106, 99);
+}
+
 .controls {
   width: 270px;
   float: right;

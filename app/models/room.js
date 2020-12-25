@@ -10,7 +10,12 @@ const findById = function (id, callback){
 	roomModel.findById(id, callback);
 }
 
+const findAndPushChatsById = function (id, message, callback){
+	roomModel.findByIdAndUpdate(id, { $push: { chats: message } }, callback);
+}
+
 module.exports = {
     create,
-    findById
+    findById,
+    findAndPushChatsById
 }

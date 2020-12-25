@@ -1,5 +1,17 @@
 const app = {
-    chat: (roomId) => {
+    chat: (roomId, title) => {
+        const dataRoom = {
+            id: roomId,
+            title: title
+        }
+        try {
+            const rooms = JSON.parse(localStorage.getItem('chatme-rooms')) || [];
+            rooms.unshift(dataRoom)
+            console.log([...new Set(rooms)])
+            localStorage.setItem('chatme-rooms', JSON.stringify(rooms))
+        } catch (err) {
+            localStorage.setItem('chatme-rooms', JSON.stringify([]))
+        }
         const socket = io('/chatroom', { transports: ['websocket'] });
 
         // Socket Connect

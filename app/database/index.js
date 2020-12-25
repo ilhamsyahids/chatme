@@ -2,7 +2,9 @@
 const Mongoose = require('mongoose')
 
 const dbURI = process.env.dbURI
-Mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+const options = { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true }
+
+Mongoose.connect(dbURI, options)
 
 Mongoose.connection.on('error', (err) => {
     if (err) throw err;

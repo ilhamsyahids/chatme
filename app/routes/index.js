@@ -5,6 +5,7 @@ const faker = require('faker');
 const passport = require('passport');
 
 const Room = require('../models/room');
+const User = require('../models/user');
 
 router.get('/', (req, res) => {
     const data = {
@@ -18,6 +19,14 @@ router.get('/', (req, res) => {
     }
     res.render('home', data);
 })
+
+// List all rooms for me
+router.get('/dashboard', [User.isAuthenticated, function(req, res, next) {
+	Room.find(function(err, rooms){
+		if(err) throw err;
+		res.render('dashboard', { rooms });
+	});
+}])
 
 router.get('/chat/:id', (req, res) => {
     const roomId = req.params.id;
@@ -51,8 +60,7 @@ router.get('/login', function(req, res, next) {
     else{
         res.render('login', {
             success: req.flash('success')[0],
-            errors: req.flash('error'), 
-            showRegisterForm: req.flash('showRegisterForm')[0]
+            errors: req.flash('error')
         });
     }
 });
@@ -89,8 +97,7 @@ router.post('/send', (req, res) => {
         chats: [
             {
                 username: user && (user.name || user.email),
-                content: message,
-                date: Date.now()
+                content: message
             }
         ]
     }, function (err, newRoom) {

@@ -6,6 +6,10 @@ const create = function (data, callback) {
     newRoom.save(callback);
 }
 
+const find = function (data, callback){
+	roomModel.find(data, callback);
+}
+
 const findById = function (id, callback){
 	roomModel.findById(id, callback);
 }
@@ -16,6 +20,7 @@ const findAndPushChatsById = function (id, message, callback){
 
 module.exports = {
     create,
+    find,
     findById,
     findAndPushChatsById
 }

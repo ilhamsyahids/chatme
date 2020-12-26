@@ -4,6 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat IO</title>
+    <meta property="og:site_name" content="Chat to Ilhamsyahids">
+    <meta property="og:title" content="Chat to Ilhamsyahids">
+    <meta property="og:url" content="http://chat.ilhamsyahids.me/">
+    <meta name="description" content="Chat directly to Ilhamsyahids.">
+    <meta name="og:description" content="Chat directly to Ilhamsyahids.">
+    <meta name="twitter:title" content="Chat to Ilhamsyahids">
+    <meta name="twitter:description" content="Chat directly to Ilhamsyahids.">
+    <link rel="canonical" href="http://chat.ilhamsyahids.me/">
+
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -13,8 +22,10 @@
             <div class="controls">
                 <% if (isMe) { %>
                 <a href="/logout" class="logout-btn">Logout</a>
-                <% }; %>
+                <a href="/dashboard" class="rooms-btn">Back</a>
+                <% } else { %>
                 <a href="/" class="rooms-btn">Back</a>
+                <% }; %>
             </div>
             <div class="chat-header clearfix">
                 <div class="chat-about">
